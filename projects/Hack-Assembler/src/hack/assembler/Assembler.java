@@ -1,21 +1,19 @@
 package hack.assembler;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class Assembler {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		Path path = Paths.get(args[0]);
-		try (BufferedReader reader = Files.newBufferedReader(path)) {
-		    String line = null;
-		    while ((line = reader.readLine()) != null) {
-		        System.out.println(line);
-		    }
-		} catch (IOException x) {
-		    System.err.format("IOException: %s%n", x);
+		Parser parser = new Parser(path);
+		String line = null;
+		int lineNum = 0;
+		while ((line = parser.next()) != null) {
+			System.out.println(lineNum + ": " + line);
+			System.out.println(parser.getCommandType());
+			lineNum++;
 		}
     }
 }
