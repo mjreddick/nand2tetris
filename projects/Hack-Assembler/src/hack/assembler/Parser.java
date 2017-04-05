@@ -12,7 +12,6 @@ public class Parser {
 
 	public Parser(Path path) throws IOException {
 		reader = Files.newBufferedReader(path);
-	    line = null;
 	}
 	
 	public String next() throws IOException {
@@ -35,5 +34,14 @@ public class Parser {
 		if (line.startsWith("@")) return CommandType.A_Command;
 		return CommandType.C_Command;
 	
+	}
+	
+	public String label() {
+//		Assumes the line is already correctly formatted as (myLabel)
+		return line.substring(1, line.length() - 1).trim();
+	}
+	
+	public String aCommandValuel() {
+		return line.substring(1, line.length()).trim();
 	}
 }
