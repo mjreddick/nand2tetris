@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.charset.StandardCharsets;
 
 public class Parser {
 
@@ -11,7 +12,7 @@ public class Parser {
 	private String line = null;
 
 	public Parser(Path path) throws IOException {
-		reader = Files.newBufferedReader(path);
+		reader = Files.newBufferedReader(path, StandardCharsets.UTF_8);
 	}
 	
 	public String next() throws IOException {
@@ -41,7 +42,34 @@ public class Parser {
 		return line.substring(1, line.length() - 1).trim();
 	}
 	
-	public String aCommandValuel() {
+	public String aCommandValue() {
 		return line.substring(1, line.length()).trim();
+	}
+	
+	public String comp() {
+		int eqInd = line.indexOf("=");
+		int semiInd = line.indexOf(";");
+		
+		eqInd = eqInd < 0 ? 0 : eqInd + 1;
+		semiInd = semiInd < 0 ? line.length() : semiInd;
+		
+		return line.substring(eqInd, semiInd).replaceAll("\\s+","");
+	}
+	
+	public String dest() {
+		int eqInd = line.indexOf("=");
+		
+		eqInd = eqInd < 0 ? 0 : eqInd;
+		
+		return line.substring(0, eqInd).replaceAll("\\s+","");
+	}
+	
+	public String jump() {
+		int semiInd = line.indexOf(";");
+		
+		semiInd = semiInd < 0 ? line.length() : semiInd + 1;
+		
+		return line.substring(semiInd, line.length()).replaceAll("\\s+","");
+		
 	}
 }
